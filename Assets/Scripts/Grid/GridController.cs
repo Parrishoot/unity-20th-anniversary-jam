@@ -41,17 +41,22 @@ public class GridController : MonoBehaviour
 
     public Action<Vector2Int> PlayerPositionReset { get; set; }
 
-
-    void Start()
-    {
-        gridRandomizer = new GridRandomizer(this);
-        RandomizeGrid();   
-    }
+    public Action SuccessfulGrid { get; set; }
 
     [ProButton]
     public void RandomizeGrid()
     {
+        if (gridRandomizer == null)
+        {
+            gridRandomizer = new GridRandomizer(this);
+        }
+
         ResetGrid();
+    }
+    
+    public void TriggerWin()
+    {
+        SuccessfulGrid?.Invoke();
     }
 
     private void ResetGrid()

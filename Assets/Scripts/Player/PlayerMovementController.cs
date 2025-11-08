@@ -64,7 +64,7 @@ public class PlayerMovementController : MonoBehaviour
         // Check for a winner
         if (gridController.IsWinner())
         {
-            gridController.RandomizeGrid();
+            gridController.TriggerWin();
             return;
         }
 
