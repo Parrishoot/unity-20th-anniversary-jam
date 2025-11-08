@@ -15,6 +15,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField]
     private GridController gridController;
 
+    public Action<Vector2> MovementProcessed { get; set; }
+
     private const float DISTANCE_THRESHOLD = .001f;
 
     private const int QUEUE_TOO_BIG = 3;
@@ -101,6 +103,9 @@ public class PlayerMovementController : MonoBehaviour
         currentTween = currentTween = transform.DOLocalMove(targetPosition, tweenSpeed)
             .SetEase(Ease.InCubic, overshoot: movementElasiticty)
             .OnComplete(CheckMoveQueue);
+
+        Vector2 direction = targetPosition - ((Vector2) transform.localPosition);
+        MovementProcessed?.Invoke(direction.normalized);
     }
     
     private bool IsTweening()
