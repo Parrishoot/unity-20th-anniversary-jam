@@ -16,27 +16,29 @@ public class RoundManager : MonoBehaviour
 
     public Timer CountdownTimer { get; private set; }
 
+    private bool roundSuccess = true;
+
     private void Start()
     {
-        gridController.SuccessfulGrid += ResetTimer;
-        ResetTimer();
-    }
-
-    private void ResetTimerFailed()
-    {
-        failedAudioSource.Play();
-        cameraController.Shake(CameraController.ShakeType.HEAVY);
+        gridController.SuccessfulGrid += () => roundSuccess = true;
         ResetTimer();
     }
 
     private void ResetTimer()
     {
-        if(CountdownTimer != null)
+        if (CountdownTimer != null)
         {
             TimerManager.DeregisterTimer(CountdownTimer);
         }
+        
+        if(!roundSuccess)
+        {
+            failedAudioSource.Play();
+            cameraController.Shake(CameraController.ShakeType.HEAVY);
+        }
 
         gridController.RandomizeGrid();
-        CountdownTimer = TimerManager.RegisterTimer(roundLength, ResetTimerFailed);
+        roundSuccess = false;
+        CountdownTimer = TimerManager.RegisterTimer(roundLength, ResetTimer);
     }
 }

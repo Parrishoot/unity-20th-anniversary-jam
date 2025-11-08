@@ -27,6 +27,9 @@ public class GridController : MonoBehaviour
     [SerializeField]
     private GridSpawner gridSpawner;
 
+    [SerializeField]
+    private GridVisibilityController visibilityController;
+
     public GameGrid Grid
     {
         get
@@ -52,11 +55,13 @@ public class GridController : MonoBehaviour
         }
 
         ResetGrid();
+        visibilityController.ShowGrid();
     }
     
     public void TriggerWin()
     {
         SuccessfulGrid?.Invoke();
+        visibilityController.HideGrid();
     }
 
     private void ResetGrid()

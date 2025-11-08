@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4787125173709736845}
   - component: {fileID: 5208764729126419234}
   - component: {fileID: 184043532633257936}
+  - component: {fileID: 7512003546647471170}
   m_Layer: 0
   m_Name: SuccessFeedback
   m_TagString: Untagged
@@ -121,7 +122,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 3f6aea2d6a86a044b974cfb0ec8305f9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.745
+  m_Volume: 0.097
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -205,3 +206,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!164 &7512003546647471170
+AudioReverbFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2636395246682951795}
+  m_Enabled: 1
+  m_DryLevel: 0
+  m_Room: -1000
+  m_RoomHF: -2500
+  m_DecayTime: 1.49
+  m_DecayHFRatio: 0.21
+  m_ReflectionsLevel: -2780
+  m_ReverbLevel: -1434
+  m_ReverbDelay: 0.1
+  m_Diffusion: 27
+  m_Density: 100
+  m_HFReference: 5000
+  m_RoomLF: 0
+  m_LFReference: 250
+  m_ReflectionsDelay: 0
+  m_ReverbPreset: 18

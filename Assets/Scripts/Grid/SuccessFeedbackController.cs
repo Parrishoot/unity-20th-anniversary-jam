@@ -13,6 +13,9 @@ public class SuccessFeedbackController : MonoBehaviour
     [SerializeField]
     private GridController gridController;
 
+    [SerializeField]
+    private Transform spawnTransform;
+
     private void Start()
     {
         gridController.SuccessfulGrid += SpawnSuccess;
@@ -21,6 +24,6 @@ public class SuccessFeedbackController : MonoBehaviour
     private void SpawnSuccess()
     {
         cameraController.Shake(CameraController.ShakeType.LIGHT);
-        Instantiate(successPrefab, transform);
+        Instantiate(successPrefab, spawnTransform);
     }
 }
