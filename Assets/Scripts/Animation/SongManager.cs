@@ -31,7 +31,7 @@ public class SongManager : MonoBehaviour
 
     public Action SongFinished { get; set; }
 
-    private float previousPercentage = -1f;
+    private float previousTime = -1f;
 
     private bool gameOver = false;
 
@@ -47,7 +47,7 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return currentProfile.Song.length - sourcePool.First().time;
+            return currentProfile.Song.length - ElapsedTime;
         }
     }
 
@@ -55,7 +55,13 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return sourcePool.First().time;
+            if (gameManager.State == GameManager.GameState.WAITING)
+            {
+                return 0f;
+            }
+            
+
+            return Time.time - startTime;
         }
     }
 
@@ -71,7 +77,7 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return Mathf.Repeat(sourcePool.First().time, PuzzleTime);
+            return Mathf.Repeat(ElapsedTime, PuzzleTime);
         }
     }
 
@@ -79,7 +85,7 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return currentProfile.BeatsPerPuzzle * (1 / (CurrentBPM / 60));
+            return currentProfile.BeatsPerPuzzle * (1f / (CurrentBPM / 60f));
         }
     }
 
@@ -95,10 +101,13 @@ public class SongManager : MonoBehaviour
 
     public float CurrentBPM
     {
-        get {
+        get
+        {
             return Mathf.Lerp(currentProfile.MinBPM, currentProfile.MaxBPM, ElaspedPercentage);
         }
     }
+
+    private float startTime = 0f;
 
     private void Awake()
     {
@@ -129,23 +138,38 @@ public class SongManager : MonoBehaviour
     {
         sourcePool.First().clip = currentProfile.Song;
         sourcePool.First().Play();
+
+        startTime = Time.time;
     }
 
     private void Update()
     {
-        if(gameOver || gameManager.State == GameManager.GameState.WAITING)
+        // Debug.Log($"Previous: {previousTime}, Current: {PercentageOfSection}");
+    
+        if (gameOver || gameManager.State == GameManager.GameState.WAITING)
         {
             return;
         }
 
-        if (previousPercentage > PercentageOfSection)
+        if (previousTime > TimeInSection)
         {
+            // Debug.Log($"Threshold Passed Finished!");
             PuzzleThresholdPassed?.Invoke();
         }
-        
-        if(!sourcePool.First().isPlaying && gameManager.State == GameManager.GameState.PLAYING)
+
+        if (!sourcePool.First().isPlaying && gameManager.State == GameManager.GameState.PLAYING)
         {
             SongFinished?.Invoke();
+        }
+
+        previousTime = TimeInSection;
+    }
+
+    private void FixedUpdate()
+    {
+        if (gameOver || gameManager.State == GameManager.GameState.WAITING)
+        {
+            return;
         }
 
         if (roundManager.PreviousRoundState == RoundState.FAILED && PercentageOfSection < .5f)
@@ -163,7 +187,5 @@ public class SongManager : MonoBehaviour
             sourcePool.First().pitch = 1;
             sourcePool.First().volume = 1;
         }
-
-        previousPercentage = PercentageOfSection;
     }
 }

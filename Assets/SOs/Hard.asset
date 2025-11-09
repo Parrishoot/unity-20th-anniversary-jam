@@ -15,5 +15,5 @@ MonoBehaviour:
   <Label>k__BackingField: Hard
   <Song>k__BackingField: {fileID: 8300000, guid: 656e88aca41ff2249b27b1b9960525c0, type: 3}
   <MinBPM>k__BackingField: 160
-  <MaxBPM>k__BackingField: 180
+  <MaxBPM>k__BackingField: 200
   <BeatsPerPuzzle>k__BackingField: 6

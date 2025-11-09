@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "7.19/win64" 1762724191
+<REAPER_PROJECT 0.1 "7.19/win64" 1762729650
   <NOTES 0 2
   >
   RIPPLE 0
@@ -766,7 +766,7 @@
       WAK 0 0
       BYPASS 0 0 0
       <JS pitch/superpitch ""
-        100 -1 0 50 20 0 -120 1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        -100 -1 0 50 20 0 -120 1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       >
       FLOATPOS 0 0 0 0
       FXID {D578FF08-F86B-4B29-BC28-161076A4EE4E}
@@ -1106,7 +1106,7 @@
         SRCCOLOR 154
         VELLANE 31 50 0 0 1
         VELLANE 64 50 0 0 1
-        CFGEDITVIEW 0 0.38866 31 12 0 -1 0 0 0 0.5
+        CFGEDITVIEW 5312.725624 0.38866 31 12 0 -1 0 0 0 0.5
         KEYSNAP 0
         TRACKSEL 189
         EVTFILTER 0 -1 -1 -1 -1 0 0 0 0 -1 -1 -1 -1 0 -1 0 -1 -1
@@ -1391,7 +1391,7 @@
         SRCCOLOR 154
         VELLANE 31 50 0 0 1
         VELLANE 64 50 0 0 1
-        CFGEDITVIEW 0 0.38866 31 12 0 -1 0 0 0 0.5
+        CFGEDITVIEW 5312.725624 0.38866 31 12 0 -1 0 0 0 0.5
         KEYSNAP 0
         TRACKSEL 189
         EVTFILTER 0 -1 -1 -1 -1 0 0 0 0 -1 -1 -1 -1 0 -1 0 -1 -1
@@ -1676,7 +1676,7 @@
         SRCCOLOR 154
         VELLANE 31 50 0 0 1
         VELLANE 64 50 0 0 1
-        CFGEDITVIEW 0 0.38866 31 12 0 -1 0 0 0 0.5
+        CFGEDITVIEW 5312.725624 0.38866 31 12 0 -1 0 0 0 0.5
         KEYSNAP 0
         TRACKSEL 189
         EVTFILTER 0 -1 -1 -1 -1 0 0 0 0 -1 -1 -1 -1 0 -1 0 -1 -1

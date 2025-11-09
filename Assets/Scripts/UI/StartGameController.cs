@@ -22,12 +22,6 @@ public class StartGameController : MonoBehaviour
 
     public void BeginGame()
     {
-        if (sceneTransitionBegun)
-        {
-            return;
-        }
-
-        sceneTransitionBegun = true;
         sceneFadeController.FadeOut();
     }
 }

@@ -35,34 +35,19 @@ public class SceneFadeController : MonoBehaviour
 
     public void FadeIn()
     {
-        if(transntioning)
-        {
-            return;
-        }
-
-        transntioning = true;
-
         DOTween.Sequence()
             .Append(image.DOFade(0f, fadeTime))
             .Join(lightTransform.DOLocalRotate(targetRotation, fadeTime).SetEase(Ease.InOutSine))
             .OnComplete(() => {
                 OnFadeIn?.Invoke();
-                transntioning = false;
             });
     }
 
     public void FadeOut()
     {
-        if (transntioning)
-        {
-            return;
-        }
-
-        transntioning = true;
         image.DOFade(1f, fadeTime / 2)
             .OnComplete(() => {
                 OnFadeOut?.Invoke();
-                transntioning = false;
             });
     }
 }

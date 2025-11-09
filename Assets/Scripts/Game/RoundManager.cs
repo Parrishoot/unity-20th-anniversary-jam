@@ -71,6 +71,7 @@ public class RoundManager : MonoBehaviour
             gridController.RandomizeGrid();   
         }
 
+        Debug.Log($"Round Finished!");
         RoundEnded?.Invoke(PreviousRoundState);
     }
 
