@@ -20,6 +20,11 @@ public class SceneFadeController : MonoBehaviour
 
     public Action OnFadeOut { get; set; }
 
+    public float FadeAmount
+    {
+        get { return image.color.a; }
+    }
+
     public void Awake()
     {
         targetRotation = lightTransform.localEulerAngles;

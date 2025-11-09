@@ -27,6 +27,14 @@ public class GameManager : MonoBehaviour
 
     public Action<GameState> GameEnded { get; set; }
 
+    public bool GameInProgress
+    {
+        get
+        {
+            return State == GameState.WAITING || State == GameState.PLAYING;
+        }
+    }
+
     private void Awake()
     {
         liveManager.RanOutOfLives += GameOver;

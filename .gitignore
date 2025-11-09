@@ -76,3 +76,6 @@ crashlytics-build.properties
 
 # Removing given assets
 /[Aa]ssets/_Unity*
+
+# Ignoring sounds from Splice
+/[Aa]ssets/Sounds/Splice*
