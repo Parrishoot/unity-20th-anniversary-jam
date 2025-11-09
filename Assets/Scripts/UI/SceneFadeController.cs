@@ -20,6 +20,8 @@ public class SceneFadeController : MonoBehaviour
 
     public Action OnFadeOut { get; set; }
 
+    private bool transntioning = false;
+
     public float FadeAmount
     {
         get { return image.color.a; }
@@ -33,14 +35,33 @@ public class SceneFadeController : MonoBehaviour
 
     public void FadeIn()
     {
+        if(transntioning)
+        {
+            return;
+        }
+
+        transntioning = true;
+
         DOTween.Sequence()
             .Append(image.DOFade(0f, fadeTime))
             .Join(lightTransform.DOLocalRotate(targetRotation, fadeTime).SetEase(Ease.InOutSine))
-            .OnComplete(() => OnFadeIn?.Invoke());
+            .OnComplete(() => {
+                OnFadeIn?.Invoke();
+                transntioning = false;
+            });
     }
 
     public void FadeOut()
     {
-        image.DOFade(1f, fadeTime / 2).OnComplete(() => OnFadeOut?.Invoke());
+        if (transntioning)
+        {
+            return;
+        }
+
+        transntioning = true;
+        image.DOFade(1f, fadeTime / 2)
+            .OnComplete(() => {
+                OnFadeOut?.Invoke();
+            });
     }
 }

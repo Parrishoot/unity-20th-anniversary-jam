@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
         songManager.SongFinished += GameWon;
 
         sceneFadeController.OnFadeIn += StartGame;
-        sceneFadeController.OnFadeOut += RestartGame;
     }
 
     private void GameOver()
@@ -67,17 +66,31 @@ public class GameManager : MonoBehaviour
         State = GameState.PLAYING;
     }
 
-    private void RestartGame()
+    public void RestartGame()
+    {
+        if(!GameInProgress)
+        {
+            sceneFadeController.OnFadeOut += LoadMenuScene;
+            sceneFadeController.FadeOut();
+        }
+    }
+
+    private void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
-
-    void Update()
+    
+    public void ReturnToMainMenu()
     {
-        if(State != GameState.PLAYING && Input.GetKeyDown(KeyCode.Space))
+        if(!GameInProgress)
         {
+            sceneFadeController.OnFadeOut += ReloadScene;
             sceneFadeController.FadeOut();
         }
+    }
+
+    private void LoadMenuScene()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
