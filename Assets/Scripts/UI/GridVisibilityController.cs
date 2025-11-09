@@ -5,6 +5,11 @@ public class GridVisibilityController : MonoBehaviour
     [SerializeField]
     private SpriteRenderer gridSpriteRenderer;
 
+    void Start()
+    {
+        HideGrid();
+    }
+
     public void ShowGrid()
     {
         gridSpriteRenderer.enabled = true;

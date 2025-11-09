@@ -90,15 +90,15 @@ public class SongManager : MonoBehaviour
 
         gameManager.GameStarted += () => sourcePool.First().Play();
         gameManager.GameEnded += (x) =>
-            {
-                sourcePool.First().DOFade(0f, 1f);
-                gameOver = true;
-            };
+        {
+            sourcePool.First().DOFade(0f, 1f);
+            gameOver = true;
+        };
     }
 
     private void Update()
     {
-        if(gameOver)
+        if(gameOver || gameManager.State == GameManager.GameState.WAITING)
         {
             return;
         }
@@ -108,7 +108,7 @@ public class SongManager : MonoBehaviour
             PuzzleThresholdPassed?.Invoke();
         }
         
-        if(!sourcePool.First().isPlaying)
+        if(!sourcePool.First().isPlaying && gameManager.State == GameManager.GameState.PLAYING)
         {
             SongFinished?.Invoke();
         }

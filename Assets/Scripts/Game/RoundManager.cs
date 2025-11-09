@@ -18,6 +18,9 @@ public class RoundManager : MonoBehaviour
     [SerializeField]
     private SongManager songManager;
 
+    [SerializeField]
+    private GameManager gameManager;
+
     public Action<RoundState> RoundEnded { get; set; }
 
     public RoundState RoundState { get; private set; }
@@ -33,11 +36,15 @@ public class RoundManager : MonoBehaviour
             RoundState = RoundState.PASSED;
             solveTimes.Add(songManager.TimeInSection);
         };
+
         songManager.PuzzleThresholdPassed += ResetTimer;
 
-        PreviousRoundState = RoundState.PASSED;
-        RoundState = RoundState.WAITING;
-        gridController.RandomizeGrid();
+        gameManager.GameStarted += () =>
+        {
+            PreviousRoundState = RoundState.PASSED;
+            RoundState = RoundState.WAITING;
+            gridController.RandomizeGrid();
+        };
     }
     
     private void ProcessFailure()
