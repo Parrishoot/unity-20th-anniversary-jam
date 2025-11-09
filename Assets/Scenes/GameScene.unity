@@ -3363,15 +3363,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd4c365da3e8714ebddca3a1943f938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  songOrder:
-  - {fileID: 8300000, guid: 4cf34ed5467bf2a41b648c9c4473aa05, type: 3}
-  - {fileID: 8300000, guid: 6c64b67f3afa91e479eadc75ee71f349, type: 3}
-  - {fileID: 8300000, guid: bb76f7f823f4b6649915f09e8b2518bc, type: 3}
-  - {fileID: 8300000, guid: 6c64b67f3afa91e479eadc75ee71f349, type: 3}
   sourcePool:
   - {fileID: 1976095343}
-  - {fileID: 0}
-  - {fileID: 0}
   gameManager: {fileID: 1170500646}
   roundManager: {fileID: 1170500642}
   pitchOnFailCurve:
@@ -3500,8 +3493,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  bpm: 160
-  beatsPerPuzzle: 6
+  defaultProfile: {fileID: 11400000, guid: f0b6e599e614d9d47a7cca57a450be64, type: 2}
 --- !u!114 &1170500646
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -65,8 +65,11 @@ public class RoundManager : MonoBehaviour
             PreviousRoundState = RoundState.PASSED;
         }
 
-        RoundState = RoundState.WAITING;
-        gridController.RandomizeGrid();
+        if (songManager.HasTimeForPuzzle)
+        {
+            RoundState = RoundState.WAITING;
+            gridController.RandomizeGrid();   
+        }
 
         RoundEnded?.Invoke(PreviousRoundState);
     }

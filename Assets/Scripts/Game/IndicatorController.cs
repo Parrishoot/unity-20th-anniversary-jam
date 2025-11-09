@@ -35,8 +35,14 @@ public class IndicatorController : MonoBehaviour
         {
             color = Color.Lerp(waitingColor, warningColor, fadeCurve.Evaluate(songManager.PercentageOfSection));
         }
-        
+
         color.a = fadeCurve.Evaluate(songManager.PercentageOfSection);
+        
+        if(!songManager.HasTimeForPuzzle)
+        {
+            color.a = 0f;
+        }
+
         transform.localScale = Vector3.Lerp(1.5f * Vector3.one, Vector3.one, songManager.PercentageOfSection);
         spriteRenderer.color = color;
     }

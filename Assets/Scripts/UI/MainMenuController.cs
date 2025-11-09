@@ -25,11 +25,11 @@ public class MainMenuController : MonoBehaviour
 
         if (direction == Direction.UP)
         {
-            offset = 1;
+            offset = -1;
         }
         else if (direction == Direction.DOWN)
         {
-            offset = -1;
+            offset = 1;
         }
         else
         {

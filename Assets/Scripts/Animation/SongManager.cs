@@ -7,9 +7,6 @@ using UnityEngine;
 public class SongManager : MonoBehaviour
 {
     [SerializeField]
-    List<AudioClip> songOrder;
-
-    [SerializeField]
     List<AudioSource> sourcePool;
 
     [SerializeField]
@@ -28,12 +25,7 @@ public class SongManager : MonoBehaviour
     private AnimationCurve slowdownCurve;
 
     [SerializeField]
-    private float bpm = 180;
-
-    [SerializeField]
-    private float beatsPerPuzzle = 8;
-
-    private float secondsPerPuzzle;
+    private GameProfile defaultProfile;
 
     public Action PuzzleThresholdPassed { get; set; }
 
@@ -47,7 +39,7 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return TimeInSection / secondsPerPuzzle;
+            return TimeInSection / PuzzleTime;
         }
     }
 
@@ -55,7 +47,23 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return sourcePool.First().clip.length - sourcePool.First().time;
+            return currentProfile.Song.length - sourcePool.First().time;
+        }
+    }
+
+    public float ElapsedTime
+    {
+        get
+        {
+            return sourcePool.First().time;
+        }
+    }
+
+    public float ElaspedPercentage
+    {
+        get
+        {
+            return ElapsedTime - currentProfile.Song.length;
         }
     }
 
@@ -63,7 +71,7 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return Mathf.Repeat(sourcePool.First().time, secondsPerPuzzle);
+            return Mathf.Repeat(sourcePool.First().time, PuzzleTime);
         }
     }
 
@@ -71,7 +79,7 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return secondsPerPuzzle;
+            return currentProfile.BeatsPerPuzzle * (1 / (CurrentBPM / 60));
         }
     }
 
@@ -79,21 +87,48 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return RemainingTime > secondsPerPuzzle;
+            return RemainingTime > PuzzleTime;
+        }
+    }
+
+    private GameProfile currentProfile;
+
+    public float CurrentBPM
+    {
+        get {
+            return Mathf.Lerp(currentProfile.MinBPM, currentProfile.MaxBPM, ElaspedPercentage);
         }
     }
 
     private void Awake()
     {
-        secondsPerPuzzle = beatsPerPuzzle * (1 / (bpm / 60));
-        Debug.Log($"Seconds Per Puzzle: {secondsPerPuzzle}");
+        SetProfile();
 
-        gameManager.GameStarted += () => sourcePool.First().Play();
+        gameManager.GameStarted += PlaySong;
         gameManager.GameEnded += (x) =>
         {
             sourcePool.First().DOFade(0f, 1f);
             gameOver = true;
         };
+    }
+
+    private void SetProfile()
+    {
+        GameProfileManager gameProfileManager = FindAnyObjectByType<GameProfileManager>();
+        if (gameProfileManager == null)
+        {
+            currentProfile = defaultProfile;
+        }
+        else
+        {
+            currentProfile = gameProfileManager.ActiveProfile;   
+        }
+    }
+
+    private void PlaySong()
+    {
+        sourcePool.First().clip = currentProfile.Song;
+        sourcePool.First().Play();
     }
 
     private void Update()
