@@ -46,6 +46,8 @@ public class GridController : MonoBehaviour
 
     public Action SuccessfulGrid { get; set; }
 
+    private bool puzzleSolved = false;
+
     [ProButton]
     public void RandomizeGrid()
     {
@@ -60,12 +62,20 @@ public class GridController : MonoBehaviour
     
     public void TriggerWin()
     {
+        if(puzzleSolved)
+        {
+            return;
+        }
+
+        puzzleSolved = true;
         SuccessfulGrid?.Invoke();
         visibilityController.HideGrid();
     }
 
     private void ResetGrid()
     {
+        puzzleSolved = false;
+
         gridSpawner.ClearPrefabs();
         gameGrid = gridRandomizer.GetRandomGrid(GridSize, MinBlocks, MaxBlocks);
 
@@ -75,6 +85,11 @@ public class GridController : MonoBehaviour
 
     public void MovePlayer(Direction direction)
     {
+        if(gameGrid == null)
+        {
+            return;
+        }
+
         Vector2Int currentCell = gameGrid.GetPlayerCell();
         Vector2Int targetCell = gameGrid.FindNextMoveableCell(currentCell, direction);
 

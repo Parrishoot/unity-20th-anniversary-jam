@@ -2588,6 +2588,8 @@ MonoBehaviour:
   transitionSpeed: 20
   animator: {fileID: 887328870}
   playerMovementController: {fileID: 2063716991}
+  wiggleAmount: 0.07
+  wiggleSpeed: 3
 --- !u!1 &931019857
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,6 +48,12 @@ public class PlayerMovementController : MonoBehaviour
 
     public void Move(Direction direction)
     {
+        
+        if(gridController.Grid == null)
+        {
+            return;   
+        }
+
         gridController.MovePlayer(direction);
 
         Vector2Int nextCell = gridController.Grid.GetPlayerCell();
