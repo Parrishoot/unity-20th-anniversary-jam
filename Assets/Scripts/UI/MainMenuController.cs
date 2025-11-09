@@ -37,7 +37,7 @@ public class MainMenuController : MonoBehaviour
         }
 
         menuOptions[menuIndex].StopHighlight();
-        menuIndex = Math.Abs((menuIndex + offset) % menuOptions.Count);
+        menuIndex = (int) Mathf.Repeat(menuIndex + offset, menuOptions.Count);
 
         menuOptions[menuIndex].BeginHighlight();
     }

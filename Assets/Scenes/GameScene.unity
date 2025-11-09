@@ -2279,9 +2279,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: baa2e399f4784454f9975039763fc32c, type: 3}
+  m_Resource: {fileID: 8300000, guid: 3346b98f2b2f53e40bf36b5cdd7d1634, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.615
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2291,7 +2291,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: 0.675
+  Pan2D: 0.3
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -4922,7 +4922,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 656e88aca41ff2249b27b1b9960525c0, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.225
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5176,7 +5176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press Esc To Return to Main Menu
+  m_text: Press Backspace To Return to Main Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 12316578938eb454bb99df5816655f90, type: 2}
   m_sharedMaterial: {fileID: -600265466523273696, guid: 12316578938eb454bb99df5816655f90, type: 2}

@@ -62,6 +62,7 @@ public class SceneFadeController : MonoBehaviour
         image.DOFade(1f, fadeTime / 2)
             .OnComplete(() => {
                 OnFadeOut?.Invoke();
+                transntioning = false;
             });
     }
 }

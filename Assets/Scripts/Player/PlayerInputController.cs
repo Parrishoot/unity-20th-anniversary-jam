@@ -20,9 +20,9 @@ public class PlayerInputController : MonoBehaviour
             Select?.Invoke();
         }
         
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Backspace))
         {
-            Select?.Invoke();
+            Back?.Invoke();
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))

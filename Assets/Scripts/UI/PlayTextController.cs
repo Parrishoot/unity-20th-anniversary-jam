@@ -11,10 +11,10 @@ public class PlayTextController : MonoBehaviour
         GameProfileManager gameProfileManager = FindAnyObjectByType<GameProfileManager>();
         if (FindAnyObjectByType<GameProfileManager>() == null)
         {
-            playText.SetText($"Play");
+            playText.SetText($"PLAY");
             return;
         }
         
-        playText.SetText($"Play ({gameProfileManager.ActiveProfile.Label})");
+        playText.SetText($"PLAY ({gameProfileManager.ActiveProfile.Label.ToUpper()})");
     }
 }

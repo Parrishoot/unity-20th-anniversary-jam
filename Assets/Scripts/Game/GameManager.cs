@@ -70,21 +70,21 @@ public class GameManager : MonoBehaviour
     {
         if(!GameInProgress)
         {
-            sceneFadeController.OnFadeOut += LoadMenuScene;
+            sceneFadeController.OnFadeOut += ReloadScene;
             sceneFadeController.FadeOut();
         }
     }
 
     private void ReloadScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("GameScene");
     }
     
     public void ReturnToMainMenu()
     {
         if(!GameInProgress)
         {
-            sceneFadeController.OnFadeOut += ReloadScene;
+            sceneFadeController.OnFadeOut += LoadMenuScene;
             sceneFadeController.FadeOut();
         }
     }
