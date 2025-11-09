@@ -17,7 +17,10 @@ public class CountdownTextController : MonoBehaviour
 
     private void Update()
     {
-        countdownText.color = Color.Lerp(startColor, endColor, roundManager.CountdownTimer.ElaspedPercentage);
-        countdownText.text = roundManager.CountdownTimer.RemainingTime.ToString("F2");
+        if(roundManager.FailCountdownTimer != null)
+        {
+            countdownText.color = Color.Lerp(startColor, endColor, roundManager.FailCountdownTimer.ElaspedPercentage);
+            countdownText.text = roundManager.FailCountdownTimer.RemainingTime.ToString("F2");   
+        }
     }
 }

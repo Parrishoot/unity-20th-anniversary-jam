@@ -1,9 +1,13 @@
+using System;
 using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
     [SerializeField]
-    private float roundLength = 2f;
+    private float roundLength = 3f;
+
+    [SerializeField]
+    private float roundBuffer = .5f;
 
     [SerializeField]
     private GridController gridController;
@@ -14,31 +18,49 @@ public class RoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource failedAudioSource;
 
-    public Timer CountdownTimer { get; private set; }
+    [SerializeField]
+    private SongManager songManager;
 
-    private bool roundSuccess = true;
+    public Timer SuccessCountdownTimer { get; private set; }
+
+    public Timer FailCountdownTimer { get; private set; }
+
+    public Action RoundFailed { get; set; }
+
+    public RoundState RoundState { get; private set; }
+
+    public RoundState PreviousRoundState { get; private set; }
 
     private void Start()
     {
-        gridController.SuccessfulGrid += () => roundSuccess = true;
-        ResetTimer();
+        gridController.SuccessfulGrid += () => RoundState = RoundState.PASSED;
+        songManager.PuzzleThresholdPassed += ResetTimer;
+
+        PreviousRoundState = RoundState.PASSED;
+        RoundState = RoundState.WAITING;
+        gridController.RandomizeGrid();
+    }
+    
+    private void ProcessFailure()
+    {
+        failedAudioSource.Play();
+        cameraController.Shake(CameraController.ShakeType.HEAVY);
+        RoundFailed?.Invoke();
     }
 
-    private void ResetTimer()
+    public void ResetTimer()
     {
-        if (CountdownTimer != null)
+        if (RoundState == RoundState.WAITING)
         {
-            TimerManager.DeregisterTimer(CountdownTimer);
+            PreviousRoundState = RoundState.FAILED;
+            ProcessFailure();
         }
-        
-        if(!roundSuccess)
+        else
         {
-            failedAudioSource.Play();
-            cameraController.Shake(CameraController.ShakeType.HEAVY);
+            PreviousRoundState = RoundState.PASSED;
         }
 
+        RoundState = RoundState.WAITING;
         gridController.RandomizeGrid();
-        roundSuccess = false;
-        CountdownTimer = TimerManager.RegisterTimer(roundLength, ResetTimer);
     }
 }
