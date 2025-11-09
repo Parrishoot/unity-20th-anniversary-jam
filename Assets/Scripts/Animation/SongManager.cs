@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 
 public class SongManager : MonoBehaviour
@@ -10,6 +11,9 @@ public class SongManager : MonoBehaviour
 
     [SerializeField]
     List<AudioSource> sourcePool;
+
+    [SerializeField]
+    private GameManager gameManager;
 
     [SerializeField]
     private RoundManager roundManager;
@@ -33,32 +37,80 @@ public class SongManager : MonoBehaviour
 
     public Action PuzzleThresholdPassed { get; set; }
 
+    public Action SongFinished { get; set; }
+
     private float previousPercentage = -1f;
+
+    private bool gameOver = false;
 
     public float PercentageOfSection
     {
         get
         {
-            return Mathf.Repeat(sourcePool.First().time, secondsPerPuzzle) / secondsPerPuzzle;
+            return TimeInSection / secondsPerPuzzle;
         }
     }
 
-    void Awake()
+    public float RemainingTime
+    {
+        get
+        {
+            return sourcePool.First().clip.length - sourcePool.First().time;
+        }
+    }
+
+    public float TimeInSection
+    {
+        get
+        {
+            return Mathf.Repeat(sourcePool.First().time, secondsPerPuzzle);
+        }
+    }
+
+    public float PuzzleTime
+    {
+        get
+        {
+            return secondsPerPuzzle;
+        }
+    }
+
+    public bool HasTimeForPuzzle
+    {
+        get
+        {
+            return RemainingTime > secondsPerPuzzle;
+        }
+    }
+
+    private void Awake()
     {
         secondsPerPuzzle = beatsPerPuzzle * (1 / (bpm / 60));
         Debug.Log($"Seconds Per Puzzle: {secondsPerPuzzle}");
-    }
 
-    private void Start()
-    {
-        sourcePool.First().Play();
+        gameManager.GameStarted += () => sourcePool.First().Play();
+        gameManager.GameEnded += (x) =>
+            {
+                sourcePool.First().DOFade(0f, 1f);
+                gameOver = true;
+            };
     }
 
     private void Update()
     {
-        if(previousPercentage > PercentageOfSection)
+        if(gameOver)
+        {
+            return;
+        }
+
+        if (previousPercentage > PercentageOfSection)
         {
             PuzzleThresholdPassed?.Invoke();
+        }
+        
+        if(!sourcePool.First().isPlaying)
+        {
+            SongFinished?.Invoke();
         }
 
         if (roundManager.PreviousRoundState == RoundState.FAILED && PercentageOfSection < .5f)

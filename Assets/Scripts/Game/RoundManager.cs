@@ -1,13 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
-    [SerializeField]
-    private float roundLength = 3f;
-
-    [SerializeField]
-    private float roundBuffer = .5f;
 
     [SerializeField]
     private GridController gridController;
@@ -21,19 +18,21 @@ public class RoundManager : MonoBehaviour
     [SerializeField]
     private SongManager songManager;
 
-    public Timer SuccessCountdownTimer { get; private set; }
-
-    public Timer FailCountdownTimer { get; private set; }
-
-    public Action RoundFailed { get; set; }
+    public Action<RoundState> RoundEnded { get; set; }
 
     public RoundState RoundState { get; private set; }
 
     public RoundState PreviousRoundState { get; private set; }
 
+    private List<float> solveTimes = new List<float>();
+
     private void Start()
     {
-        gridController.SuccessfulGrid += () => RoundState = RoundState.PASSED;
+        gridController.SuccessfulGrid += () =>
+        {
+            RoundState = RoundState.PASSED;
+            solveTimes.Add(songManager.TimeInSection);
+        };
         songManager.PuzzleThresholdPassed += ResetTimer;
 
         PreviousRoundState = RoundState.PASSED;
@@ -45,7 +44,6 @@ public class RoundManager : MonoBehaviour
     {
         failedAudioSource.Play();
         cameraController.Shake(CameraController.ShakeType.HEAVY);
-        RoundFailed?.Invoke();
     }
 
     public void ResetTimer()
@@ -62,5 +60,17 @@ public class RoundManager : MonoBehaviour
 
         RoundState = RoundState.WAITING;
         gridController.RandomizeGrid();
+
+        RoundEnded?.Invoke(PreviousRoundState);
+    }
+
+    public float GetAverageSolveTime()
+    {
+        if (solveTimes.Count == 0)
+        {
+            return 0;
+        }
+
+        return solveTimes.Average();
     }
 }
