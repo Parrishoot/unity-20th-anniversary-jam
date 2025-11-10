@@ -61,7 +61,7 @@ public class SongManager : MonoBehaviour
             }
             
 
-            return Time.time - startTime;
+            return sourcePool.First().time;
         }
     }
 
@@ -107,8 +107,6 @@ public class SongManager : MonoBehaviour
         }
     }
 
-    private float startTime = 0f;
-
     private void Awake()
     {
         SetProfile();
@@ -138,8 +136,6 @@ public class SongManager : MonoBehaviour
     {
         sourcePool.First().clip = currentProfile.Song;
         sourcePool.First().Play();
-
-        startTime = Time.time;
     }
 
     private void Update()
