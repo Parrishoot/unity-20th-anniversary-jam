@@ -61,7 +61,7 @@ public class SongManager : MonoBehaviour
             }
             
 
-            return sourcePool.First().time;
+            return Time.time - startTime;
         }
     }
 
@@ -69,7 +69,7 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return ElapsedTime - currentProfile.Song.length;
+            return ElapsedTime / currentProfile.Song.length;
         }
     }
 
@@ -107,6 +107,8 @@ public class SongManager : MonoBehaviour
         }
     }
 
+    private float startTime = 0f;
+
     private void Awake()
     {
         SetProfile();
@@ -136,6 +138,8 @@ public class SongManager : MonoBehaviour
     {
         sourcePool.First().clip = currentProfile.Song;
         sourcePool.First().Play();
+
+        startTime = Time.time;
     }
 
     private void Update()
