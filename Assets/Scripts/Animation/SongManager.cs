@@ -35,11 +35,21 @@ public class SongManager : MonoBehaviour
 
     private bool gameOver = false;
 
+    private int numberOfPuzzlesCompleted = 0;
+
     public float PercentageOfSection
     {
         get
         {
             return TimeInSection / PuzzleTime;
+        }
+    }
+
+    public int NumberOfPuzzles
+    {
+        get
+        {
+            return (int) Mathf.Floor(ElapsedTime / PuzzleTime);
         }
     }
 
@@ -61,7 +71,7 @@ public class SongManager : MonoBehaviour
             }
             
 
-            return Time.time - startTime;
+            return currentTime;
         }
     }
 
@@ -69,7 +79,7 @@ public class SongManager : MonoBehaviour
     {
         get
         {
-            return ElapsedTime / currentProfile.Song.length;
+            return ElapsedTime - currentProfile.Song.length;
         }
     }
 
@@ -107,7 +117,7 @@ public class SongManager : MonoBehaviour
         }
     }
 
-    private float startTime = 0f;
+    private float currentTime = 0f;
 
     private void Awake()
     {
@@ -139,21 +149,22 @@ public class SongManager : MonoBehaviour
         sourcePool.First().clip = currentProfile.Song;
         sourcePool.First().Play();
 
-        startTime = Time.time;
+        currentTime = 0f;
     }
 
     private void Update()
     {
         // Debug.Log($"Previous: {previousTime}, Current: {PercentageOfSection}");
-    
+
         if (gameOver || gameManager.State == GameManager.GameState.WAITING)
         {
             return;
         }
 
-        if (previousTime > TimeInSection)
+        if (NumberOfPuzzles > numberOfPuzzlesCompleted)
         {
             // Debug.Log($"Threshold Passed Finished!");
+            numberOfPuzzlesCompleted = NumberOfPuzzles;
             PuzzleThresholdPassed?.Invoke();
         }
 
@@ -162,7 +173,7 @@ public class SongManager : MonoBehaviour
             SongFinished?.Invoke();
         }
 
-        previousTime = TimeInSection;
+        currentTime += Time.deltaTime * sourcePool.First().pitch;
     }
 
     private void FixedUpdate()
